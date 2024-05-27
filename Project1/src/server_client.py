@@ -4,7 +4,7 @@ import threading
 import concurrent.futures
 
 class ServerClient:
-    def __init__(self, SERVER_IP="172.20.10.2", SERVER_PORT=2238, CLIENT_IP="172.20.10.4", CLIENT_PORT=2238, SAVE_AUDIO_LOCATION='Recieved Data', SAVE_IMAGE_LOCATION = 'Recieved Data'):
+    def __init__(self, SERVER_IP="172.20.10.2", SERVER_PORT=2238, CLIENT_IP="172.20.10.4", CLIENT_PORT=2238, SAVE_AUDIO_LOCATION='..\Recieved Data', SAVE_IMAGE_LOCATION = '..\Recieved Data'):
         self.SERVER_IP = SERVER_IP
         self.SERVER_PORT = SERVER_PORT
         self.CLIENT_IP = CLIENT_IP

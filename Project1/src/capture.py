@@ -1,6 +1,6 @@
 import cv2
 
-def capture_image(output_file="Send Data/captured_image.jpg"):
+def capture_image(output_file="..\Send Data\captured_image.jpg"):
     # Create a VideoCapture object to access the camera
     cap = cv2.VideoCapture(0)  
 
