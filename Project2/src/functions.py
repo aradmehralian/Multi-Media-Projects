@@ -50,5 +50,5 @@ def plot_histogram(image: np.ndarray, title: str, color: str) -> None:
         None
     """
     plt.hist(image.ravel(), bins=256, range=[0, 256], color=color)
-    plt.title(title)
+    plt.title(title.title())
     plt.xlim([0, 256])
