@@ -2,13 +2,43 @@ import cv2
 import numpy as np
 from matplotlib import pyplot as plt
 
-def detect_and_label_shapes(image):
-    gray=cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+
+def detect_and_label_shapes(image: np.ndarray) -> np.ndarray:
+    """
+    Detects and labels shapes in the given image.
+
+    This function converts the input image to grayscale, applies the Canny edge detector 
+    to find edges, and then finds contours in the edged image. For each contour, the 
+    function approximates the contour to a simpler shape, determines the shape type 
+    (triangle, square, rectangle, pentagon, or circle), draws the contour on the original 
+    image, and labels the shape at its centroid.
+
+    Parameters:
+    -----------
+    image : np.ndarray
+        The input image in which shapes are to be detected. It should be a color image 
+        in BGR format.
+
+    Returns:
+    --------
+    np.ndarray
+        The output image with detected shapes labeled and contours drawn.
+
+    Notes:
+    ------
+    - This function uses the OpenCV library for image processing tasks.
+    - The function assumes that the input image is a color image in RGB format.
+    """
+
+
+
+    gray = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
     edged = cv2.Canny(gray, 50, 150)
     # Find contours
     contours, _ = cv2.findContours(edged, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
-    for i, contour in enumerate(contours):
+    for _, contour in enumerate(contours):
         # Approximate the contour
         epsilon = 0.04 * cv2.arcLength(contour, True)
         approx = cv2.approxPolyDP(contour, epsilon, True)
@@ -39,8 +69,35 @@ def detect_and_label_shapes(image):
     return image
 
 # Function to remove non-quadrilateral shapes
-def remove_non_quadrilaterals(image):
-    gray=cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+def remove_non_quadrilaterals(image: np.ndarray) -> np.ndarray:
+
+    """
+    Removes all non-quadrilateral shapes from the given image, retaining only quadrilaterals.
+
+    This function converts the input image to grayscale, applies edge detection to find edges,
+    and then finds contours in the edged image. For each contour, the function approximates
+    the contour to a simpler shape and checks if it has four vertices. If it is a quadrilateral,
+    it is drawn on a mask. The final result is obtained by performing a bitwise AND operation
+    between the original image and the mask, keeping only the quadrilateral shapes.
+
+    Parameters:
+    -----------
+    image : np.ndarray
+        The input image from which non-quadrilateral shapes are to be removed. It should be a
+        color image in BGR format.
+
+    Returns:
+    --------
+    np.ndarray
+        The output image with only quadrilateral shapes retained and other shapes removed.
+
+    Notes:
+    ------
+    - This function uses the OpenCV library for image processing tasks.
+    - The function assumes that the input image is a color image in RGB format.
+    """
+
+    gray = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
     # Apply edge detection
     edged = cv2.Canny(gray, 50, 150)
     # Find contours
@@ -48,7 +105,7 @@ def remove_non_quadrilaterals(image):
 
     mask = np.zeros(image.shape[:2], dtype="uint8")
 
-    for i, contour in enumerate(contours):
+    for _, contour in enumerate(contours):
         # Approximate the contour
         epsilon = 0.04 * cv2.arcLength(contour, True)
         approx = cv2.approxPolyDP(contour, epsilon, True)
